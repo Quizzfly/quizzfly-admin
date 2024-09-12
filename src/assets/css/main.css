@@ -1,0 +1,14 @@
+/* THEME OPTIONS */
+@import './themes/default.css';
+@import './themes/green.css';
+
+body {
+  font-size: 14px;
+  min-height: 100vh;
+  height: 100vh;
+  color: #202b38;
+}
+
+hr {
+  color: #e5e4e6;
+}
