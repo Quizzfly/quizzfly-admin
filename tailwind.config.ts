@@ -41,6 +41,7 @@ export default {
     },
   },
   plugins: [
+    require('tailwindcss-primeui'),
     animate,
     iconsPlugin({
       // Select the icon collections you want to use

@@ -20,6 +20,8 @@ import 'tippy.js/dist/tippy.css' // optional for styling
 import 'vue-awesome-paginate/dist/style.css'
 import { i18n } from './plugins/i18n'
 import Vue3Toastify from './plugins/toast'
+import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
 
 const initApp = async () => {
   app.component('Icon', Icon)
@@ -28,6 +30,12 @@ const initApp = async () => {
   app.use(MotionPlugin)
   app.use(TouchOutSide)
   app.use(VImage)
+  app.use(PrimeVue)
+  app.use(PrimeVue, {
+    theme: {
+      preset: Aura,
+    },
+  })
   app.use(
     VueTippy,
     // optional
@@ -41,7 +49,7 @@ const initApp = async () => {
       }, // => Global default options * see all props
     },
   )
-  app.component('confirmDialog', ConfirmModal)
+  app.component('ConfirmDialog', ConfirmModal)
   app.component('DefaultLayout', DefaultLayout)
   app.component('GuestLayout', GuestLayout)
   app.component('NoSideBarLayout', NoSideBarLayout)
