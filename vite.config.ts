@@ -15,7 +15,7 @@ export default ({ mode }: { mode: string }) => {
         imports: ['vue', 'vue-router', 'pinia'],
         dirs: ['./src/api'],
       }),
-      svgLoader(),
+      // svgLoader(),
     ],
     // server: {
     //     port: parseInt(process.env.VITE_PORT as string),
@@ -37,11 +37,6 @@ export default ({ mode }: { mode: string }) => {
       },
     },
     css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: `@import "@/assets/scss/mixins.scss";`,
-        },
-      },
     },
   })
 }

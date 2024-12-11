@@ -2,9 +2,6 @@
 
 @layer tailwind-base {
   @tailwind base;
-
-  @layer base {
-  }
 }
 
 @layer tailwind-utilities {

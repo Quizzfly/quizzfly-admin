@@ -3,30 +3,16 @@ import SideBar from '@/components/layout/SideBar.vue'
 import TopBar from '@/components/layout/TopBar.vue'
 </script>
 <template>
-  <div class="container-div pt-[54px]">
-    <TopBar />
-    <div class="w-full flex">
-      <SideBar />
-      <div class="flex-1 relative overflow-hidden">
-        <slot />
-      </div>
+  <div class="container-div">
+    <!-- <TopBar /> -->
+    <SideBar />
+    <div class="p-5 pt-0 gap-5 flex-1 relative flex flex-col overflow-auto">
+      <TopBar />
+      <slot />
+      <footer class="text-center text-gray-400 text-xs">
+        <p>&copy; 2021 All rights reserved</p>
+      </footer>
     </div>
-    <!-- <Splitter class="mb-8 w-full border-0 h-full">
-            <SplitterPanel
-                :size="25"
-                class="flex items-center justify-center"
-            >
-                <SideBar />
-            </SplitterPanel>
-            <SplitterPanel
-                :size="75"
-                :min-size="50"
-                class="flex items-center justify-center"
-            >
-                <slot />
-            </SplitterPanel>
-        </Splitter> -->
-    <confirmDialog />
   </div>
 </template>
 <style lang="scss" scoped>
