@@ -12,8 +12,10 @@ async function refreshToken() {
         refreshToken: localStorage.getItem(config.key.refreshToken),
       },
     })
-    authStore.token.access = response.access.token
-    authStore.token.refresh = response.refresh.token
+
+    // TODO: Handle the response following your API response
+    authStore.token.access = response.data[config.key.accessToken]
+    authStore.token.refresh = response.data[config.key.refreshToken]
     localStorage.setItem(config.key.accessToken, authStore.token.access)
     localStorage.setItem(config.key.refreshToken, authStore.token.refresh)
     return true
@@ -59,7 +61,7 @@ export const fetchInstance: $Fetch = ofetch.create({
   retry: 1,
   retryStatusCodes: config.retryStatusCodes,
   async onResponseError(error) {
-    console.log('[Ofetch]: Unauthorized.', error)
+    console.error('[Ofetch]: Error:', error)
     if (isAllowRefreshToken(error)) {
       error.options = await handleUnauthorizedError(error)
     }
@@ -68,6 +70,12 @@ export const fetchInstance: $Fetch = ofetch.create({
 
 function createFetchOptions(options: FetchOptions, isAuthHeader: boolean) {
   const { token } = useAuthStore()
+  // set header need
+  // options.headers = {
+  //   'Allow-Control-Allow-Origin': '*',
+  //   'Content-Type': 'application/json',
+  //   ...options.headers,
+  // }
   if (isAuthHeader) {
     return {
       ...options,

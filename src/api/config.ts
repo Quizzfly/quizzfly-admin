@@ -1,7 +1,7 @@
 export const config = {
-  baseURL: import.meta.env.VITE_API_ENDPOINT,
+  baseURL: import.meta.env.VITE_API_ENDPOINT || 'https://api.quizzfly.site/api/v1',
   path: {
-    refreshToken: 'auth/refresh-tokens',
+    refreshToken: 'admin/auth/refresh-tokens',
   },
   key: {
     refreshToken: 'refresh_token', //KEY SAVED IN LOCALSTORAGE
