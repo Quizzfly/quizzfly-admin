@@ -36,7 +36,6 @@ export default ({ mode }: { mode: string }) => {
         },
       },
     },
-    css: {
-    },
+    css: {},
   })
 }

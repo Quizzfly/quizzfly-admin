@@ -7,6 +7,8 @@ interface IQuestion {
   actionCancel?: any
   data?: any
   onlyConfirm?: boolean
+  success?: boolean
+  warning?: boolean
 }
 
 export const useConfirmDialog = defineStore({
@@ -23,7 +25,7 @@ export const useConfirmDialog = defineStore({
           resolve,
           data,
         }
-      })
+      }) as Promise<{ isConfirmed: boolean; data: IQuestion }>
     },
     confirm(value: boolean) {
       this.confirmationResolver.resolve({

@@ -9,7 +9,7 @@ import { Icon } from '@iconify/vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue'
 import GuestLayout from '@/layouts/GuestLayout.vue'
 import NoSideBarLayout from '@/layouts/NoSideBarLayout.vue'
-// import { initAuthStore, initMasterStore } from './stores'
+import { initAuthStore } from './stores'
 const app = createApp(App)
 import ConfirmModal from '@/components/base/ConfirmDialog.vue'
 import { plugin as VueTippy } from 'vue-tippy'
@@ -59,7 +59,7 @@ const initApp = async () => {
   app.component('GuestLayout', GuestLayout)
   app.component('NoSideBarLayout', NoSideBarLayout)
   app.use(createPinia())
-  // await initAuthStore();
+  await initAuthStore()
   // await initWebSocketStore();
   // await initMasterStore();
   app.use(router)

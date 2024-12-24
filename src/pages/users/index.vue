@@ -26,18 +26,21 @@
       :rows-per-page-options="[5, 10, 20, 50]"
     >
       <Column
-        field="name"
         header="Name"
         style="min-width: 100px"
-      ></Column>
+      >
+        <template #body="slotProps">
+          <p :field="slotProps">{{ slotProps.data.user_info.name }}</p>
+        </template>
+      </Column>
       <Column
         style="min-width: 100px"
         header="Avatar"
       >
         <template #body="slotProps">
           <img
-            :src="slotProps.data.avatar"
-            :alt="slotProps.data.name"
+            :src="slotProps.data.user_info.avatar"
+            :alt="slotProps.data.user_info.name"
             class="w-10 h-10 rounded-full object-cover"
           />
         </template>
@@ -53,13 +56,14 @@
       ></Column>
       <Column
         style="min-width: 100px"
-        header="Status"
+        header="Action"
+        class="text-left"
       >
         <template #body="slotProps">
-          <Tag
-            :value="slotProps.data.status"
-            :severity="getSeverity(slotProps.data)"
-          />
+          <span
+            class="cursor-pointer bg-red-500 w-5 h-5 i-material-symbols-light-auto-delete"
+            @click="handleDeleteUser(slotProps.data?.id)"
+          ></span>
         </template>
       </Column>
       <template #footer> In total there are {{ users ? users.length : 0 }} users. </template>
@@ -78,89 +82,56 @@
 import { ref } from 'vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import Tag from 'primevue/tag'
 import Button from 'primevue/button'
 import Paginator from 'primevue/paginator'
-const users = ref([
-  {
-    id: 1,
-    name: 'Alice Johnson',
-    avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
-    email: 'alice.johnson@example.com',
-    role: 'Admin',
-    status: 'Active',
-  },
-  {
-    id: 2,
-    name: 'Bob Smith',
-    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
-    email: 'bob.smith@example.com',
-    role: 'User',
-    status: 'Pending',
-  },
-  {
-    id: 3,
-    name: 'Charlie Brown',
-    avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
-    email: 'charlie.brown@example.com',
-    role: 'Moderator',
-    status: 'Inactive',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-])
+import type { IUserManage } from '@/types/userManage'
+import { getListUserApi, deleteUserApi } from '@/services/userManage'
+import { showToast } from '@/utils/toast'
+import { apiError } from '@/utils/exceptionHandler'
+import { useConfirmDialog } from '@/stores/modal'
 
-const getSeverity = (user) => {
-  switch (user.status) {
-    case 'Active':
-      return 'success'
+const confirmDialog = useConfirmDialog()
 
-    case 'Pending':
-      return 'warn'
+const users = ref<IUserManage[]>([])
 
-    case 'Inactive':
-      return 'danger'
+onMounted(() => {
+  getListUsers()
+})
 
-    default:
-      return null
+const getListUsers = async (page = 1) => {
+  try {
+    const data = await getListUserApi(page)
+    users.value = data.data
+  } catch (error: any) {
+    showToast({
+      description: apiError(error).message,
+      variant: 'destructive',
+    })
+  }
+}
+
+const deleteUser = async (id: string) => {
+  try {
+    await deleteUserApi(id)
+    const index = users.value.findIndex((i) => i.id === id)
+    index > -1 && users.value.splice(index, 1)
+  } catch (error: any) {
+    showToast({
+      description: apiError(error).message,
+      variant: 'destructive',
+    })
+  }
+}
+
+const handleDeleteUser = async (id: string) => {
+  const result = await confirmDialog.open({
+    title: 'Are you sure?',
+    question: 'Do you really want to delete this user?',
+    warning: true,
+  })
+
+  if (result.isConfirmed) {
+    deleteUser(id)
   }
 }
 </script>
