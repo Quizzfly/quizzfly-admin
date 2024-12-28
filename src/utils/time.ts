@@ -1,30 +1,30 @@
 import { i18n } from '@/plugins/i18n'
-import { useMasterStore } from '@/stores/master'
+// import { useMasterStore } from '@/stores/master'
 const { t } = i18n.global
 
-export const formatDateTime = (timeStamp: number): string => {
-  const masterStore = useMasterStore()
-  const dateFormat = new Date(timeStamp)
-  let dateConverted = ''
-  switch (masterStore.getLocale.code) {
-    case 'en': {
-      dateConverted =
-        dateFormat.getFullYear() + '/' + (dateFormat.getMonth() + 1) + '/' + dateFormat.getDate()
-      break
-    }
-    case 'vi': {
-      dateConverted =
-        dateFormat.getDate() + '/' + (dateFormat.getMonth() + 1) + '/' + dateFormat.getFullYear()
-      break
-    }
-    case 'ja': {
-      dateConverted =
-        dateFormat.getFullYear() + '/' + (dateFormat.getMonth() + 1) + '/' + dateFormat.getDate()
-      break
-    }
-  }
-  return dateConverted
-}
+// export const formatDateTime = (timeStamp: number): string => {
+//   // const masterStore = useMasterStore()
+//   const dateFormat = new Date(timeStamp)
+//   let dateConverted = ''
+//   switch (masterStore.getLocale.code) {
+//     case 'en': {
+//       dateConverted =
+//         dateFormat.getFullYear() + '/' + (dateFormat.getMonth() + 1) + '/' + dateFormat.getDate()
+//       break
+//     }
+//     case 'vi': {
+//       dateConverted =
+//         dateFormat.getDate() + '/' + (dateFormat.getMonth() + 1) + '/' + dateFormat.getFullYear()
+//       break
+//     }
+//     case 'ja': {
+//       dateConverted =
+//         dateFormat.getFullYear() + '/' + (dateFormat.getMonth() + 1) + '/' + dateFormat.getDate()
+//       break
+//     }
+//   }
+//   return dateConverted
+// }
 
 const convertTime = (date: number): string => {
   const now: number = Date.now()
@@ -76,4 +76,12 @@ export function getTimezoneOffsetString(): string {
   // Xác định dấu (+ hoặc -) và số mã múi giờ
   const timezoneString = `UTC${offsetSign}${offsetInHours}`
   return timezoneString
+}
+
+export function formatDate(data: string) {
+  const date = new Date(data)
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear()
+  return `${day}/${month}/${year}`
 }

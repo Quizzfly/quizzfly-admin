@@ -13,7 +13,7 @@ const menus = ref([
     icon: 'pi pi-th-large',
     items: [
       { icon: 'i-material-symbols-light-account-circle', name: 'Users', to: '/users' },
-      { icon: 'i-material-symbols-light-person-add', name: 'Add new user', to: '/users/create' },
+      { icon: 'i-material-symbols-light-bookmark-manager', name: 'Role', to: '/users/roles' },
     ],
   },
   {
@@ -31,7 +31,7 @@ const menus = ref([
   {
     name: 'Room',
     icon: 'pi pi-th-large',
-    items: [{ icon: 'i-material-symbols-light-quiz', name: 'Room playing', to: '/quizzfly' }],
+    items: [{ icon: 'i-material-symbols-light-quiz', name: 'Room playing', to: '/room' }],
   },
   {
     name: 'Settings',

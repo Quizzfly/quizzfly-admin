@@ -2,14 +2,18 @@ import type { BaseResponse } from '@/types/api'
 import type { IUserManage } from '@/types/userManage'
 
 export const getListUserApi = async (
+  keywords: string,
+  only_deleted: boolean,
   page = 1,
   limit = 10,
 ): Promise<BaseResponse<IUserManage[]>> => {
   return $api('/admin/users', {
     method: 'GET',
     params: {
+      keywords,
       page,
       limit,
+      only_deleted,
     },
   })
 }
@@ -32,6 +36,6 @@ export const updateUserApi = async (
 
 export const restoreUserApi = async (userId: string): Promise<BaseResponse<IUserManage>> => {
   return $api(`/admin/users/${userId}/restore`, {
-    method: 'POST',
+    method: 'PUT',
   })
 }

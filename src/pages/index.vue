@@ -16,6 +16,5 @@ import QuizzflyChart from '@/components/dashboard/QuizzflyChart.vue'
     </div>
 
     <TableUser />
-    <!-- <TableUser /> -->
   </div>
 </template>
