@@ -198,7 +198,7 @@ const handleSearch = debounce(() => {
   if (keywords.value) {
     getListQuizzfly()
   }
-}, 500)
+}, 400)
 
 const getListQuizzfly = async (page = 1) => {
   try {
