@@ -1,4 +1,7 @@
+import type { IPaging } from '.'
+
 export type BaseResponse<T> = {
   data: T
-  status: string
+  meta?: IPaging
+  message: string
 }

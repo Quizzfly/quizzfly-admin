@@ -1,201 +1,223 @@
 <template>
-  <!-- <div class="flex w-full gap-5"> -->
-
-  <Splitter
-    :gutter-size="2"
-    state-storage="local"
-    class="h-full border-none"
-  >
-    <SplitterPanel class="pr-4">
-      <div class="w-full card border rounded-2xl overflow-hidden">
-        <div class="flex items-center justify-between pr-5">
-          <div class="px-4 mt-4 mb-4">
-            <p class="text-sm font-medium">Groups</p>
-            <p class="text-xs text-gray-400">
-              Details of recently registered users on the platform.
-            </p>
-          </div>
+  <div class="card border rounded-2xl">
+    <div class="flex items-center justify-between pr-5">
+      <div class="flex items-center gap-5">
+        <div class="px-4 mt-4 mb-4">
+          <p class="text-sm font-medium">Recent New group</p>
+          <p class="text-xs text-gray-400">Details of recently registered group on the platform.</p>
+        </div>
+        <IconField>
+          <InputIcon class="pi pi-search" />
           <InputText
-            placeholder="Search"
-            class="w-full max-w-80 mr-3"
-            size="small"
+            v-model="keywords"
+            placeholder="Search group"
+            class="text-sm font-normal"
+            @input="handleSearch()"
           />
-          <RouterLink to="/users/create">
-            <Button
-              severity="secondary"
-              rounded
-              class="inline-flex whitespace-nowrap items-center h-fit"
-              size="small"
-            >
-              <span class="i-material-symbols-light-add"></span>
-              Add new user
-            </Button>
-          </RouterLink>
-        </div>
-        <DataTable
-          v-model:selection="selectedGroup"
-          class="text-xs"
-          :value="users"
-          table-style="min-width: 50rem"
-          scrollable
-          :rows="5"
-          :rows-per-page-options="[5, 10, 20, 50]"
-          selection-mode="single"
-          data-key="id"
-          :meta-key-selection="false"
-        >
-          <Column
-            field="name"
-            header="Name"
-            style="min-width: 100px"
-          ></Column>
-          <Column
-            style="min-width: 100px"
-            header="Avatar"
-          >
-            <template #body="slotProps">
-              <img
-                :src="slotProps.data.avatar"
-                :alt="slotProps.data.name"
-                class="w-10 h-10 rounded-full object-cover"
-              />
-            </template>
-          </Column>
-          <Column
-            field="email"
-            header="Email"
-            style="min-width: 100px"
-          ></Column>
-          <Column
-            field="role"
-            header="Role"
-          ></Column>
-          <Column
-            style="min-width: 100px"
-            header="Status"
-          >
-            <template #body="slotProps">
-              <Tag
-                :value="slotProps.data.status"
-                :severity="getSeverity(slotProps.data)"
-              />
-            </template>
-          </Column>
-          <template #footer> In total there are {{ users ? users.length : 0 }} users. </template>
-        </DataTable>
-
-        <div class="card">
-          <Paginator
-            :rows="10"
-            :total-records="120"
-          ></Paginator>
-        </div>
+        </IconField>
       </div>
-    </SplitterPanel>
-    <SplitterPanel
-      v-if="selectedGroup"
-      class="pl-4"
-    >
-      <GroupPostsTable :group="selectedGroup" />
-    </SplitterPanel>
-  </Splitter>
+      <Select
+        v-model="selectedOption"
+        :options="listOption"
+        option-label="name"
+        placeholder="Select option"
+        class="w-[138px]"
+      />
+    </div>
+    <ScrollPanel style="width: 100%; height: calc(100vh - 250px)">
+      <DataTable
+        class="text-xs overflow-hidden overflow-y-auto cursor-pointer"
+        :value="groups"
+        table-style="min-width: 50rem"
+        scrollable
+        @row-click="handleToDetail"
+      >
+        <Column
+          header="Name"
+          style="min-width: 100px"
+        >
+          <template #body="slotProps">
+            <p v-if="slotProps.data.name">{{ slotProps.data.name }}</p>
+            <p v-else>Untitled</p>
+          </template>
+        </Column>
+        <Column
+          style="min-width: 100px"
+          header="Cover Image"
+        >
+          <template #body="slotProps">
+            <img
+              v-if="slotProps.data.background"
+              :src="slotProps.data.background"
+              :alt="slotProps.data.name"
+              class="w-10 h-10 rounded-full object-cover"
+            />
+            <img
+              v-else
+              src="@/assets/img/bg-image-3.jpg"
+              :alt="slotProps.data.name"
+              class="w-10 h-10 rounded-full object-cover"
+            />
+          </template>
+        </Column>
+        <Column
+          header="Created"
+          style="min-width: 100px"
+        >
+          <template #body="slotProps">
+            <p>{{ formatDate(slotProps.data.created_at) }}</p>
+          </template>
+        </Column>
+        <Column
+          field="description"
+          header="Description"
+          class="max-w-[120px] col-description"
+        ></Column>
+        <Column
+          style="min-width: 100px"
+          header="Action"
+          class="text-left"
+        >
+          <template #body="slotProps">
+            <div class="flex items-center">
+              <span
+                class="cursor-pointer bg-red-500 w-5 h-5 i-material-symbols-light-auto-delete"
+                @click="handledeleteGroup(slotProps.data?.id)"
+              ></span>
+            </div>
+          </template>
+        </Column>
+        <template #footer> In total there are {{ groups ? groups.length : 0 }} groups. </template>
+      </DataTable>
+    </ScrollPanel>
 
-  <!-- </div> -->
+    <div class="card">
+      <Paginator
+        :rows="metaPage?.limit"
+        :total-records="metaPage?.total_records"
+        @page="onPageChange"
+      ></Paginator>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import Splitter from 'primevue/splitter'
-import SplitterPanel from 'primevue/splitterpanel'
-import InputText from 'primevue/inputtext'
 import { ref } from 'vue'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import Tag from 'primevue/tag'
-import Button from 'primevue/button'
 import Paginator from 'primevue/paginator'
-import GroupPostsTable from '@/components/group/GroupPostsTable.vue'
-const users = ref([
-  {
-    id: 1,
-    name: 'Alice Johnson',
-    avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
-    email: 'alice.johnson@example.com',
-    role: 'Admin',
-    status: 'Active',
-  },
-  {
-    id: 2,
-    name: 'Bob Smith',
-    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
-    email: 'bob.smith@example.com',
-    role: 'User',
-    status: 'Pending',
-  },
-  {
-    id: 3,
-    name: 'Charlie Brown',
-    avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
-    email: 'charlie.brown@example.com',
-    role: 'Moderator',
-    status: 'Inactive',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Daisy Lee',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg',
-    email: 'daisy.lee@example.com',
-    role: 'User',
-    status: 'Active',
-  },
+import type { IGroup } from '@/types/group'
+import type { IPaging } from '@/types'
+import { getListGroupApi, deleteGroupApi } from '@/services/group'
+import { showToast } from '@/utils/toast'
+import { apiError } from '@/utils/exceptionHandler'
+import { useConfirmDialog } from '@/stores/modal'
+import { formatDate } from '@/utils/time'
+import router from '@/routers/router'
+import ScrollPanel from 'primevue/scrollpanel'
+import IconField from 'primevue/iconfield'
+import InputIcon from 'primevue/inputicon'
+import InputText from 'primevue/inputtext'
+import Select from 'primevue/select'
+
+const confirmDialog = useConfirmDialog()
+
+const groups = ref<IGroup[]>([])
+const metaPage = ref<IPaging>()
+const currentPage = ref(1)
+const keywords = ref('')
+const listOption = ref([
+  { name: 'All', code: 'ALL' },
+  { name: 'Deleted', code: 'DELETED' },
 ])
 
-const selectedGroup = ref(null)
+const selectedOption = ref(listOption.value[0])
 
-const getSeverity = (user) => {
-  switch (user.status) {
-    case 'Active':
-      return 'success'
+onMounted(() => {
+  getListGroup()
+})
 
-    case 'Pending':
-      return 'warn'
+const handleToDetail = (data: any) => {
+  router.push(`/groups/${data.data.id}`)
+}
 
-    case 'Inactive':
-      return 'danger'
-
-    default:
-      return null
+const getListGroup = async (page = 1) => {
+  try {
+    const data = await getListGroupApi(keywords.value, page)
+    groups.value = data.data
+    metaPage.value = data.meta
+    currentPage.value = page
+  } catch (error: any) {
+    showToast({
+      description: apiError(error).message,
+      variant: 'destructive',
+    })
   }
 }
+
+const deleteGroup = async (id: string) => {
+  try {
+    await deleteGroupApi(id)
+    const index = groups.value.findIndex((i) => i.id === id)
+    index > -1 && groups.value.splice(index, 1)
+  } catch (error: any) {
+    showToast({
+      description: apiError(error).message,
+      variant: 'destructive',
+    })
+  }
+}
+
+const handledeleteGroup = async (id: string) => {
+  const result = await confirmDialog.open({
+    title: 'Are you sure?',
+    question: 'Do you really want to delete this group?',
+    warning: true,
+  })
+
+  if (result.isConfirmed) {
+    deleteGroup(id)
+  }
+}
+
+const onPageChange = (event: { page: number }) => {
+  const newPage = event.page + 1
+  getListGroup(newPage)
+}
+
+const debounce = <T extends (...args: any[]) => void>(
+  fn: T,
+  delay: number,
+): ((...args: Parameters<T>) => void) => {
+  let timeoutID: ReturnType<typeof setTimeout> | null = null
+
+  return (...args: Parameters<T>) => {
+    if (timeoutID) {
+      clearTimeout(timeoutID)
+    }
+    timeoutID = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+
+const handleSearch = debounce(() => {
+  if (keywords.value) {
+    getListGroup()
+  }
+}, 500)
 </script>
+
+<style scoped lang="scss">
+:deep {
+  .data-form {
+    min-height: 300px;
+  }
+
+  .col-description {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+</style>

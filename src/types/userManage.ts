@@ -4,6 +4,7 @@ export interface IUserManage {
   role: string
   created_at: string
   updated_at: string
+  deleted_at: string | null
   user_info: {
     id: string
     username: string

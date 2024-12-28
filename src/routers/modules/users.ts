@@ -10,11 +10,11 @@ export const usersRoute: RouteRecordRaw[] = [
     component: () => import('@/pages/users/index.vue'),
   },
   {
-    path: 'create',
-    name: 'users-create',
+    path: 'roles',
+    name: 'users-role',
     meta: {
-      title: 'Create',
+      title: 'Roles',
     },
-    component: () => import('@/pages/users/create.vue'),
+    component: () => import('@/pages/users/roles/index.vue'),
   },
 ]
