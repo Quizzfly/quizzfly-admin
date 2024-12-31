@@ -5,6 +5,7 @@ interface UserProfile {
   first_name: string
   last_name: string
 }
+
 export const getInfoApi = async (): Promise<BaseResponse<IUser>> => {
   return $api('/users/me', {
     method: 'GET',

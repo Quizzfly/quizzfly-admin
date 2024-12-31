@@ -11,13 +11,6 @@
             class="i-material-symbols-light-delete-sweep-rounded w-5 h-5 bg-red-500"
             @click="handleDeleteRole(item.id)"
           ></span>
-          <!-- <div
-            v-if="isShowOption"
-            class="flex justify-center items-center cursor-pointer absolute px-4 py-3 text-red-600 font-normal text-sm"
-            @click="handleDeleteRole(item.id)"
-          >
-            Delete
-          </div> -->
         </div>
         <div class="text-base font-semibold">{{ item.name }}</div>
         <div class="text-sm font-medium">{{ item.description }}</div>
@@ -26,6 +19,7 @@
             label="View role"
             icon="pi pi-check"
             severity="secondary"
+            @click="toDetailPage(item.id)"
           />
           <Button
             label="Edit role"
@@ -81,6 +75,7 @@ const roles = ref<IListRole[]>([])
 const isShowModal = ref(false)
 const isShowUpdateModal = ref(false)
 const idRole = ref('')
+const router = useRouter()
 // const isShowOption = ref(false)
 const roleData = ref({
   name: '',
@@ -88,9 +83,9 @@ const roleData = ref({
   permission_ids: [],
 })
 
-// const showOption = () => {
-//   isShowOption.value = !isShowOption.value
-// }
+const toDetailPage = (id: string) => {
+  router.push(`/users/roles/${id}`)
+}
 
 const showUpdateModal = (data: any) => {
   isShowUpdateModal.value = true

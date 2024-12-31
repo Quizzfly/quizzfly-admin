@@ -18,6 +18,22 @@ export const getListUserApi = async (
   })
 }
 
+export const getListUserByRoleApi = async (
+  idRole: string,
+  keywords: string,
+  page = 1,
+  limit = 10,
+): Promise<BaseResponse<IUserManage[]>> => {
+  return $api(`/roles/${idRole}/users-assigned`, {
+    method: 'GET',
+    params: {
+      keywords,
+      page,
+      limit,
+    },
+  })
+}
+
 export const deleteUserApi = async (userId: string): Promise<BaseResponse<IUserManage>> => {
   return $api(`/admin/users/${userId}`, {
     method: 'DELETE',

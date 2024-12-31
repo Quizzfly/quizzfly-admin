@@ -195,9 +195,7 @@ const debounce = <T extends (...args: any[]) => void>(
 }
 
 const handleSearch = debounce(() => {
-  if (keywords.value) {
-    getListQuizzfly()
-  }
+  getListQuizzfly()
 }, 400)
 
 const getListQuizzfly = async (page = 1) => {

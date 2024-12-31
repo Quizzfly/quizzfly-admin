@@ -14,6 +14,15 @@ export const createRoleApi = async (data: any): Promise<BaseResponse<IListRole>>
   })
 }
 
+export const assignRoleForUserApi = async (
+  idRole: string,
+  idUser: string,
+): Promise<BaseResponse<IListRole>> => {
+  return $api(`/roles/${idRole}/users/${idUser}/assign`, {
+    method: 'POST',
+  })
+}
+
 export const updateRoleApi = async (
   idRole: string,
   data: any,
@@ -24,8 +33,10 @@ export const updateRoleApi = async (
   })
 }
 
-export const getRoleInforAndPermissionApi = async (): Promise<BaseResponse<IListRole[]>> => {
-  return $api('/roles/permissions', {
+export const getRoleInforAndPermissionApi = async (
+  id: string,
+): Promise<BaseResponse<IListRole>> => {
+  return $api(`/roles/${id}/permissions`, {
     method: 'GET',
   })
 }

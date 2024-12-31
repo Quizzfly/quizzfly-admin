@@ -1,4 +1,24 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth'
+import { useConfirmDialog } from '@/stores/modal'
+
+const authStore = useAuthStore()
+const confirmDialog = useConfirmDialog()
+
+const openConfirm = async () => {
+  const { isConfirmed } = await confirmDialog.open({
+    title: 'Confirm',
+    question: 'Do you really want to logout?',
+    warning: true,
+  })
+
+  if (isConfirmed) {
+    authStore.logout()
+  }
+}
+
+const isCollapsed = ref(JSON.parse(localStorage.getItem('isCollapsed') || 'false'))
+
 const menus = ref([
   {
     name: 'Dashboard',
@@ -13,33 +33,33 @@ const menus = ref([
     icon: 'pi pi-th-large',
     items: [
       { icon: 'i-material-symbols-light-account-circle', name: 'Users', to: '/users' },
-      { icon: 'i-material-symbols-light-bookmark-manager', name: 'Role', to: '/users/roles' },
+      { icon: 'i-material-symbols-light-bookmark-manager', name: 'Roles list', to: '/users/roles' },
     ],
   },
   {
     name: 'Quizzfly management',
     icon: 'pi pi-th-large',
+    items: [{ icon: 'i-material-symbols-light-quiz', name: 'All quizzfly', to: '/quizzfly' }],
+  },
+  {
+    name: 'Payment',
+    icon: 'pi pi-th-large',
     items: [
-      { icon: 'i-material-symbols-light-quiz', name: 'All quizzfly', to: '/quizzfly' },
+      { icon: 'i-material-symbols-light-quiz', name: 'All Payment', to: '/payments' },
       {
-        icon: 'i-material-symbols-light-auto-delete',
-        name: 'Quizzfly deleted',
-        to: '/quizzfly/deleted',
+        icon: 'i-material-symbols-light-deployed-code-history',
+        name: 'Payment History',
+        to: '/payments/history',
       },
     ],
   },
   {
-    name: 'Room',
-    icon: 'pi pi-th-large',
-    items: [{ icon: 'i-material-symbols-light-quiz', name: 'Room playing', to: '/room' }],
-  },
-  {
-    name: 'Settings',
-    icon: 'pi pi-cog',
-    items: [
-      { icon: 'i-material-symbols-light-account-circle', name: 'Profile', to: '/profile' },
-      { icon: 'i-material-symbols-light-settings', name: 'Settings', to: '/settings' },
-    ],
+    // name: 'Settings',
+    // icon: 'pi pi-cog',
+    // items: [
+    //   { icon: 'i-material-symbols-light-account-circle', name: 'Profile', to: '/profile' },
+    //   { icon: 'i-material-symbols-light-settings', name: 'Settings', to: '/settings' },
+    // ],
   },
 ])
 </script>
@@ -74,6 +94,13 @@ const menus = ref([
           </router-link>
         </li>
       </ul>
+    </div>
+    <div
+      class="ml-4 mt-auto text-red-600 flex items-center gap-2 cursor-pointer py-3 px-2 rounded-xl transition-all duration-200"
+      @click="openConfirm"
+    >
+      <span class="i-solar-logout-2-linear text-xl"></span>
+      <p v-if="!isCollapsed">Logout</p>
     </div>
   </div>
 </template>

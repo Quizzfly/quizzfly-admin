@@ -98,6 +98,7 @@ const cleanActionName = (actionName: string, resourceName: string) => {
   <BaseModal @click="emits('close')">
     <div
       class="bg-white w-[750px] mx-auto rounded-3xl shadow-lg relative my-[48px]"
+      style="max-height: calc(100vh - 32px)"
       @click.stop
     >
       <div class="text-4xl w-full text-center font-semibold p-12">
@@ -107,7 +108,7 @@ const cleanActionName = (actionName: string, resourceName: string) => {
         class="flex flex-col gap-10 mx-12"
         @submit.prevent="props.roleId ? updateRole() : createRole()"
       >
-        <ScrollPanel style="height: 450px; width: 100%">
+        <ScrollPanel style="height: 360px; width: 100%">
           <div class="px-4 gap-6 flex flex-col">
             <div class="">
               <label
