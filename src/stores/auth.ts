@@ -46,7 +46,7 @@ export const useAuthStore = defineStore({
         if (redirect) {
           router.push(redirect)
         } else {
-          // location.reload()
+          location.reload()
         }
       } catch (error) {
         showToast({
