@@ -202,9 +202,7 @@ const debounce = <T extends (...args: any[]) => void>(
 }
 
 const handleSearch = debounce(() => {
-  if (keywords.value) {
-    getListGroup()
-  }
+  getListGroup()
 }, 500)
 </script>
 

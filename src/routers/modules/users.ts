@@ -17,4 +17,12 @@ export const usersRoute: RouteRecordRaw[] = [
     },
     component: () => import('@/pages/users/roles/index.vue'),
   },
+  {
+    path: 'roles/:id',
+    name: 'users-role-detail',
+    meta: {
+      title: 'Roles detail',
+    },
+    component: () => import('@/pages/users/roles/viewDetail.vue'),
+  },
 ]

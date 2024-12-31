@@ -1,5 +1,12 @@
 import { createWebHistory, createRouter, type RouteRecordRaw } from 'vue-router'
-import { authRoute, homeRoute, usersRoute, groupRoute, quizzflyRoute } from './modules'
+import {
+  authRoute,
+  homeRoute,
+  usersRoute,
+  groupRoute,
+  quizzflyRoute,
+  paymentsRoute,
+} from './modules'
 import { authGuard } from './auth-guard'
 
 const routes: RouteRecordRaw[] = [
@@ -43,6 +50,14 @@ const routes: RouteRecordRaw[] = [
       title: 'Group management',
     },
     children: groupRoute,
+  },
+  {
+    path: '/payments',
+    beforeEnter: [authGuard],
+    meta: {
+      title: 'Payment management',
+    },
+    children: paymentsRoute,
   },
   {
     path: '/test',

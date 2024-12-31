@@ -229,9 +229,7 @@ const debounce = <T extends (...args: any[]) => void>(
 }
 
 const handleSearch = debounce(() => {
-  if (keyword.value) {
-    getListUsers()
-  }
+  getListUsers()
 }, 500)
 </script>
 
