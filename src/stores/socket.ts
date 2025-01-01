@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia'
 import { Client } from '@stomp/stompjs'
-// import { getEndpointApi } from "@/services/master";
 
 const BASE_URL_SOCKET = import.meta.env.VITE_BASE_URL_SOCKET
 
-// websocket store
 export const useSocketStore = defineStore({
   id: 'socket',
   state: () => ({

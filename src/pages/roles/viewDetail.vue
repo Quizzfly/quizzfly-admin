@@ -14,7 +14,10 @@
         />
       </div>
     </div>
-    <div class="card border rounded-2xl">
+    <div
+      class="card border rounded-2xl"
+      style="width: calc(100% - 300px)"
+    >
       <div class="flex items-center justify-between pr-5">
         <div class="flex items-center gap-5">
           <div class="px-4 mt-4 mb-4">
@@ -55,7 +58,14 @@
           >
             <template #body="slotProps">
               <img
+                v-if="slotProps.data.user_info.avatar"
                 :src="slotProps.data.user_info.avatar"
+                :alt="slotProps.data.user_info.name"
+                class="w-10 h-10 rounded-full object-cover"
+              />
+              <img
+                v-else
+                src="@/assets/img/avatar.jpg"
                 :alt="slotProps.data.user_info.name"
                 class="w-10 h-10 rounded-full object-cover"
               />

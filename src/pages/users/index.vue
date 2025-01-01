@@ -45,7 +45,14 @@
         >
           <template #body="slotProps">
             <img
+              v-if="slotProps.data.user_info.avatar"
               :src="slotProps.data.user_info.avatar"
+              :alt="slotProps.data.user_info.name"
+              class="w-10 h-10 rounded-full object-cover"
+            />
+            <img
+              v-else
+              src="@/assets/img/avatar.jpg"
               :alt="slotProps.data.user_info.name"
               class="w-10 h-10 rounded-full object-cover"
             />

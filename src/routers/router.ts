@@ -6,6 +6,7 @@ import {
   groupRoute,
   quizzflyRoute,
   paymentsRoute,
+  rolesRoute,
 } from './modules'
 import { authGuard } from './auth-guard'
 
@@ -34,6 +35,14 @@ const routes: RouteRecordRaw[] = [
       title: 'User management',
     },
     children: usersRoute,
+  },
+  {
+    path: '/roles',
+    beforeEnter: [authGuard],
+    meta: {
+      title: 'role management',
+    },
+    children: rolesRoute,
   },
   {
     path: '/quizzfly',

@@ -33,7 +33,7 @@ const menus = ref([
     icon: 'pi pi-th-large',
     items: [
       { icon: 'i-material-symbols-light-account-circle', name: 'Users', to: '/users' },
-      { icon: 'i-material-symbols-light-bookmark-manager', name: 'Roles list', to: '/users/roles' },
+      { icon: 'i-material-symbols-light-bookmark-manager', name: 'Roles list', to: '/roles' },
     ],
   },
   {
@@ -42,7 +42,7 @@ const menus = ref([
     items: [{ icon: 'i-material-symbols-light-quiz', name: 'All quizzfly', to: '/quizzfly' }],
   },
   {
-    name: 'Payment',
+    name: 'Payments',
     icon: 'pi pi-th-large',
     items: [
       { icon: 'i-material-symbols-light-quiz', name: 'All Payment', to: '/payments' },
@@ -52,14 +52,6 @@ const menus = ref([
         to: '/payments/history',
       },
     ],
-  },
-  {
-    // name: 'Settings',
-    // icon: 'pi pi-cog',
-    // items: [
-    //   { icon: 'i-material-symbols-light-account-circle', name: 'Profile', to: '/profile' },
-    //   { icon: 'i-material-symbols-light-settings', name: 'Settings', to: '/settings' },
-    // ],
   },
 ])
 </script>
