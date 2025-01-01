@@ -45,7 +45,7 @@
           header="Created"
         >
           <template #body="slotProps">
-            <p :field="slotProps">{{ formatDate(slotProps.data.created_at) }}</p>
+            <p :field="slotProps">{{ formatDateTime(slotProps.data.created_at) }}</p>
           </template>
         </Column>
         <Column
@@ -98,7 +98,7 @@ import ScrollPanel from 'primevue/scrollpanel'
 import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
 import InputText from 'primevue/inputtext'
-import { formatDate } from '@/utils/time'
+import { formatDateTime } from '@/utils/time'
 import Chip from 'primevue/chip'
 
 const users = ref<IUserPlan[]>([])

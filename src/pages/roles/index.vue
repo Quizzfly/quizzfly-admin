@@ -31,6 +31,7 @@
       </div>
       <div
         class="flex flex-col justify-center items-center w-[30%] flex-wrap shadow-md rounded-lg p-6 gap-4 cursor-pointer max-h-[200px]"
+        @click="isShowModal = true"
       >
         <div class="flex justify-center items-center h-[100px]">
           <img
@@ -39,12 +40,7 @@
             class="h-full w-full"
           />
         </div>
-        <p
-          class="text-lg font-medium text-teal-500"
-          @click="isShowModal = true"
-        >
-          Add new Role
-        </p>
+        <p class="text-lg font-medium text-teal-500">Add new Role</p>
       </div>
     </div>
     <MRoleUser
@@ -84,7 +80,7 @@ const roleData = ref({
 })
 
 const toDetailPage = (id: string) => {
-  router.push(`/users/roles/${id}`)
+  router.push(`/roles/${id}`)
 }
 
 const showUpdateModal = (data: any) => {

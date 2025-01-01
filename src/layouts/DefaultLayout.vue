@@ -10,7 +10,7 @@ import TopBar from '@/components/layout/TopBar.vue'
       <TopBar />
       <slot />
       <footer class="text-center text-gray-400 text-xs">
-        <p>&copy; 2021 All rights reserved</p>
+        <p>&copy; 2024 All rights reserved</p>
       </footer>
     </div>
   </div>

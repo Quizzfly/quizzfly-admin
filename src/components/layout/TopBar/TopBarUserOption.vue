@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { vOnClickOutside } from '@vueuse/components'
-import PopupProfile from '@/components/profile/PopupProfile.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()

@@ -4,9 +4,6 @@ import { showToast } from '@/utils/toast'
 export const initAuthStore = async () => {
   const authStore = useAuthStore()
   await authStore.setupAuth()
-  // if (authStore.getIsLoggedIn) {
-  //     await Promise.all([workspaceStore.setupWorkspace()]);
-  // }
 }
 
 export const initMasterStore = async () => {
