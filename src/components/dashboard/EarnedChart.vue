@@ -1,13 +1,22 @@
 <script setup lang="ts">
 import Chart from 'primevue/chart'
+import { getListUserPlanApi } from '@/services/userPlan'
+import { showToast } from '@/utils/toast'
+import { apiError } from '@/utils/exceptionHandler'
 
 onMounted(() => {
   chartData.value = setChartData()
   chartOptions.value = setChartOptions()
 })
 
+onMounted(() => {
+  getPaymentHistory()
+})
+
 const chartData = ref()
 const chartOptions = ref()
+const totalAmount = ref(0)
+const keyword = ref('')
 
 const setChartData = () => {
   return {
@@ -27,6 +36,22 @@ const setChartData = () => {
         pointRadius: 1, // Ẩn chấm tròn
       },
     ],
+  }
+}
+
+const getPaymentHistory = async (page = 1, limit = 100) => {
+  try {
+    const data = await getListUserPlanApi(keyword.value, page, limit)
+    data.data.forEach((el) => {
+      if (el.amount) {
+        totalAmount.value += el.amount
+      }
+    })
+  } catch (error: any) {
+    showToast({
+      description: apiError(error).message,
+      variant: 'destructive',
+    })
   }
 }
 
@@ -53,7 +78,7 @@ const setChartOptions = () => {
 <template>
   <div class="flex flex-col overflow-hidden h-[160px] border rounded-xl shadow-sm p-4">
     <p>MRR</p>
-    <p class="text-lg font-medium">2000$</p>
+    <p class="text-lg font-medium">{{ totalAmount }}$</p>
     <Chart
       type="line"
       :data="chartData"

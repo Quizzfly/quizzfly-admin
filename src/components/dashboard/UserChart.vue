@@ -49,7 +49,7 @@ const setChartOptions = () => {
 <template>
   <div class="flex flex-col overflow-hidden h-[160px] border rounded-xl shadow-sm p-4">
     <p>Users</p>
-    <p class="text-lg font-medium">12312</p>
+    <p class="text-lg font-medium">212</p>
     <Chart
       type="line"
       :data="chartData"
